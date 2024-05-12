@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>GitHub Markdown Version&colon; Advanced Docker Setup for Next&period;js 14</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h3 id="github-markdown-version-advanced-docker-setup-for-nextjs-14">GitHub Markdown Version: Advanced Docker Setup for Next.js 14</h3>
+<p>Below is the GitHub markdown version of the tutorial on setting up Docker for a Next.js 14 application using advanced techniques. This markdown is formatted for clarity and emphasis, suitable for a README file or other GitHub documentation.</p>
+<pre><code class="language-markdown"><span class="hljs-section"># Advanced Docker Setup for Next.js 14</span>
+
+<span class="hljs-section">## Introduction</span>
+This guide provides a comprehensive walkthrough for setting up Docker in a Next.js 14 application using advanced techniques. By leveraging Docker, developers can ensure a consistent environment from development to production, enhancing both efficiency and reliability.
+
+<span class="hljs-section">## Prerequisites</span>
+Before you begin, ensure you have the following installed:
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**Docker**</span>: Download and install Docker from [<span class="hljs-string">Docker&#x27;s official website</span>](<span class="hljs-link">https://www.docker.com/products/docker-desktop</span>).
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**Node.js**</span>: Install the latest LTS version from [<span class="hljs-string">Node.js official website</span>](<span class="hljs-link">https://nodejs.org/</span>).
+<span class="hljs-bullet">-</span> A text editor or IDE of your choice.
+
+<span class="hljs-section">## Step 1: Setting Up `.dockerignore`</span>
+Create a <span class="hljs-code">`.dockerignore`</span> file in the root of your Next.js project to exclude unnecessary files from your Docker build context. This helps to reduce build time and image size. Add the following entries:
+
+<span class="hljs-code">```plaintext
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.next
+.git
+</span></code></pre>
+<h2 id="step-2-configuring-nextconfigts">Step 2: Configuring <code>next.config.ts</code></h2>
+<p>Update your <code>next.config.ts</code> to enable standalone output, crucial for the Docker setup. Replace its content with the following:</p>
+<pre><code class="language-typescript"><span class="hljs-comment">/** <span class="hljs-doctag">@type</span> {<span class="hljs-type">import(&#x27;next&#x27;).NextConfig</span>} */</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+  <span class="hljs-attr">output</span>: <span class="hljs-string">&quot;standalone&quot;</span>,
+};
+</code></pre>
+<h2 id="step-3-writing-the-dockerfile">Step 3: Writing the Dockerfile</h2>
+<p>Create a <code>Dockerfile</code> in your project's root directory. This file will define the multi-stage build process for your Docker image. Here’s the complete Dockerfile:</p>
+<pre><code class="language-Dockerfile"><span class="hljs-comment"># Base image with Node.js</span>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine AS base
+
+<span class="hljs-comment"># Install dependencies only when needed</span>
+<span class="hljs-keyword">FROM</span> base AS deps
+<span class="hljs-keyword">RUN</span><span class="language-bash"> apk add --no-cache libc6-compat</span>
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> \
+  <span class="hljs-keyword">if</span> [ -f yarn.lock ]; <span class="hljs-keyword">then</span> yarn --frozen-lockfile; \
+  <span class="hljs-keyword">elif</span> [ -f package-lock.json ]; <span class="hljs-keyword">then</span> npm ci; \
+  <span class="hljs-keyword">elif</span> [ -f pnpm-lock.yaml ]; <span class="hljs-keyword">then</span> corepack <span class="hljs-built_in">enable</span> pnpm and pnpm i --frozen-lockfile; \
+  <span class="hljs-keyword">else</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Lockfile not found.&quot;</span> and <span class="hljs-built_in">exit</span> 1; \
+  <span class="hljs-keyword">fi</span></span>
+
+<span class="hljs-comment"># Rebuild the source code only when needed</span>
+<span class="hljs-keyword">FROM</span> base AS builder
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=deps /app/node_modules ./node_modules</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> \
+  <span class="hljs-keyword">if</span> [ -f yarn.lock ]; <span class="hljs-keyword">then</span> yarn run build; \
+  <span class="hljs-keyword">elif</span> [ -f package-lock.json ]; <span class="hljs-keyword">then</span> npm run build; \
+  <span class="hljs-keyword">elif</span> [ -f pnpm-lock.yaml ]; <span class="hljs-keyword">then</span> corepack <span class="hljs-built_in">enable</span> pnpm and pnpm run build; \
+  <span class="hljs-keyword">else</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Lockfile not found.&quot;</span> and <span class="hljs-built_in">exit</span> 1; \
+  <span class="hljs-keyword">fi</span></span>
+
+<span class="hljs-comment"># Production image, copy all the files and run next</span>
+<span class="hljs-keyword">FROM</span> base AS runner
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+<span class="hljs-keyword">ENV</span> NODE_ENV production
+<span class="hljs-keyword">RUN</span><span class="language-bash"> addgroup --system --gid 1001 nodejs</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> adduser --system --uid 1001 nextjs</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /app/public ./public</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">mkdir</span> .next</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">chown</span> nextjs:nodejs .next</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder --<span class="hljs-built_in">chown</span>=nextjs:nodejs /app/.next/standalone ./</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder --<span class="hljs-built_in">chown</span>=nextjs:nodejs /app/.next/static ./.next/static</span>
+<span class="hljs-keyword">USER</span> nextjs
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span>
+<span class="hljs-keyword">ENV</span> PORT <span class="hljs-number">3000</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;node&quot;</span>, <span class="hljs-string">&quot;server.js&quot;</span>]</span>
+</code></pre>
+<h2 id="step-4-building-the-docker-image">Step 4: Building the Docker Image</h2>
+<p>Build your Docker image by running the following command in your terminal:</p>
+<pre><code class="language-bash">docker build . -t nextjs-14-docker
+</code></pre>
+<h2 id="running-your-docker-container">Running Your Docker Container</h2>
+<p>Once the image is built, run your Docker container with:</p>
+<pre><code class="language-bash">docker run -p 3000:3000 nextjs-14-docker
+</code></pre>
+<p>This command maps port 3000 of the container to port 3000 on your host, allowing you to access your application at <code>http://localhost:3000</code>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>By following this guide, you have successfully set up a Next.js 14 application in a Dockerized environment using advanced techniques. This setup not only optimizes your development and deployment workflow but also ensures that your application runs consistently across different environments.</p>
+<p>Experiment further and integrate more tools into your Docker setup to enhance your development experience with Next.js and Docker.</p>
+<pre><code>
+This markdown document is ready to be added to a GitHub repository, providing clear and structured documentation for setting up a Next.js application with Docker.</code></pre>
+
+            
+            
+        </body>
+        </html>
